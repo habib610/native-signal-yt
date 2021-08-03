@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
+import { auth } from "../config/firebase";
 
 const RegisterScreen = () => {
 	const [email, setEmail] = useState("");
@@ -9,7 +10,18 @@ const RegisterScreen = () => {
 	const [fullName, setFullName] = useState("");
 	const [imgUrl, setImgUrl] = useState("");
 
-	const registerHandler = () => {};
+	const registerHandler = () => {
+		auth.createUserWithEmailAndPassword(email, password)
+			.then((res) => {
+				res.user.updateProfile({
+					displayName: fullName,
+					photoURL:
+						imgUrl ||
+						"https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg",
+				});
+			})
+			.catch((err) => alert(err.message));
+	};
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "android" ? "height" : "padding"}
@@ -48,7 +60,12 @@ const RegisterScreen = () => {
 					onChangeText={(e) => setImgUrl(e)}
 				/>
 			</View>
-			<Button raised containerStyle={styles.btn} title="Register" />
+			<Button
+				onPress={registerHandler}
+				raised
+				containerStyle={styles.btn}
+				title="Register"
+			/>
 			<View style={{ height: Platform.OS === "android" ? 200 : 100 }} />
 		</KeyboardAvoidingView>
 	);

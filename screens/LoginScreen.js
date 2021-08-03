@@ -5,12 +5,27 @@ import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Image, Input, Button } from "react-native-elements";
 import { useState } from "react";
+import { useEffect } from "react";
+import { auth } from "../config/firebase";
 
 
 const LoginScreen = ({navigation}) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const signinHandler = () => {};
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((authUser) => {
+			if (authUser) {
+				navigation.replace("Home");
+			}
+		});
+		return unsubscribe;
+	});
+	const signinHandler = () => {
+		auth.signInWithEmailAndPassword(email, password)
+			.then((res) => console.log(res))
+			.catch((err) => alert(err.message));
+	};
 	return (
 		<KeyboardAvoidingView behavior="padding"  style={styles.container}>
 			<StatusBar style="inverted" />
