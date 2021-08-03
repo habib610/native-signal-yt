@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator();
 const headerGlobalStyle = {
@@ -15,8 +16,8 @@ export default function App() {
 		<NavigationContainer>
 			<Stack.Navigator screenOptions={headerGlobalStyle}>
 				<Stack.Screen name="Login" component={LoginScreen} />
+				<Stack.Screen name="Register" component={RegisterScreen} />
 			</Stack.Navigator>
-			<Text>I am login screen</Text>
 		</NavigationContainer>
 	);
 }
