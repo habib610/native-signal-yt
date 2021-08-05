@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
 			}
 		});
 		return unsubscribe;
-	});
+	}, [navigation]);
 	const signinHandler = () => {
 		auth.signInWithEmailAndPassword(email, password)
 			.then((res) => console.log(res))
